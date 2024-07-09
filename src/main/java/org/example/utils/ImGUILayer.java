@@ -12,6 +12,7 @@ import imgui.enums.ImGuiConfigFlags;
 import imgui.enums.ImGuiKey;
 import imgui.enums.ImGuiMouseCursor;
 import imgui.gl3.ImGuiImplGl3;
+import org.example.ui.Sample;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
@@ -22,6 +23,8 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class ImGUILayer {
     private long glfwWindow;
+    // User UI to render
+    private final Sample exampleUi = new Sample();
 
     // Mouse cursors provided by GLFW
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
@@ -148,44 +151,6 @@ public class ImGUILayer {
             }
         });
 
-        // ------------------------------------------------------------
-        // Fonts configuration
-        // Read: https://raw.githubusercontent.com/ocornut/imgui/master/docs/FONTS.txt
-
-//        final ImFontAtlas fontAtlas = io.getFonts();
-//        final ImFontConfig fontConfig = new ImFontConfig(); // Natively allocated object, should be explicitly destroyed
-//
-//        // Glyphs could be added per-font as well as per config used globally like here
-//        fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
-//
-//        // Add a default font, which is 'ProggyClean.ttf, 13px'
-//        fontAtlas.addFontDefault();
-//
-//        // Fonts merge example
-//        fontConfig.setMergeMode(true); // When enabled, all fonts added with this config would be merged with the previously added font
-//        fontConfig.setPixelSnapH(true);
-//
-//        fontAtlas.addFontFromMemoryTTF(loadFromResources("basis33.ttf"), 16, fontConfig);
-//
-//        fontConfig.setMergeMode(false);
-//        fontConfig.setPixelSnapH(false);
-//
-//        // Fonts from file/memory example
-//        // We can add new fonts from the file system
-//        fontAtlas.addFontFromFileTTF("src/test/resources/Righteous-Regular.ttf", 14, fontConfig);
-//        fontAtlas.addFontFromFileTTF("src/test/resources/Righteous-Regular.ttf", 16, fontConfig);
-//
-//        // Or directly from the memory
-//        fontConfig.setName("Roboto-Regular.ttf, 14px"); // This name will be displayed in Style Editor
-//        fontAtlas.addFontFromMemoryTTF(loadFromResources("Roboto-Regular.ttf"), 14, fontConfig);
-//        fontConfig.setName("Roboto-Regular.ttf, 16px"); // We can apply a new config value every time we add a new font
-//        fontAtlas.addFontFromMemoryTTF(loadFromResources("Roboto-Regular.ttf"), 16, fontConfig);
-//
-//        fontConfig.destroy(); // After all fonts were added we don't need this config more
-
-        // ------------------------------------------------------------
-        // Use freetype instead of stb_truetype to build a fonts texture
-//        ImGuiFreeType.buildFontAtlas(fontAtlas, ImGuiFreeType.RasterizerFlags.LightHinting);
 
         // Method initializes LWJGL3 renderer.
         // This method SHOULD be called after you've initialized your ImGui configuration (fonts and so on).
@@ -194,10 +159,6 @@ public class ImGUILayer {
     }
 
     private void startFrame(final float deltaTime) {
-        // Set the clear color and clear the window
-//        glClearColor(exampleUi.backgroundColor[0], exampleUi.backgroundColor[1], exampleUi.backgroundColor[2], 0.0f);
-//        glClear(GL_COLOR_BUFFER_BIT);
-
         // Get window properties and mouse position
         float[] winWidth = {Window.getWidth()};
         float[] winHeight = {Window.getHeight()};
@@ -221,41 +182,17 @@ public class ImGUILayer {
     }
 
     public void update(float dt){
-//        double time = 0; // to track our frame delta value
-//
-//        // Run the rendering loop until the user has attempted to close the window
-//        while (!glfwWindowShouldClose(windowPtr)) {
-//            // Count frame delta value
-//            final double currentTime = glfwGetTime();
-//            final double deltaTime = (time > 0) ? (currentTime - time) : 1f / 60f;
-//            time = currentTime;
-//
-//            startFrame((float) deltaTime);
-//
-//            // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
-//            ImGui.newFrame();
-////            exampleUi.render();
-//            ImGui.render();
-//
-//            endFrame();
-//        }
-
         startFrame(dt);
 
         ImGui.newFrame();
-        ImGui.showDemoWindow();
+        exampleUi.render();
         ImGui.render();
 
         endFrame();
     }
 
     private void endFrame() {
-        // After Dear ImGui prepared a draw data, we use it in the LWJGL3 renderer.
-        // At that moment ImGui will be rendered to the current OpenGL context.
         imGuiGl3.render(ImGui.getDrawData());
-
-//        glfwSwapBuffers(glfwWindow);
-//        glfwPollEvents();
     }
 
     // If you want to clean a room after yourself - do it by yourself
@@ -263,5 +200,6 @@ public class ImGUILayer {
         imGuiGl3.dispose();
         ImGui.destroyContext();
     }
+
 
 }

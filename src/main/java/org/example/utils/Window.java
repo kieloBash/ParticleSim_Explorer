@@ -75,7 +75,7 @@ public class Window {
             // Poll events
             glfwPollEvents();
 
-            glClearColor(1.0f,0.0f,0.0f,1.0f);
+            glClearColor(1.0f,1.0f,1.0f,1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
             this.imGUILayer.update(dt);
@@ -92,4 +92,6 @@ public class Window {
     public static int getHeight(){
         return get().height;
     }
+
+
 }
