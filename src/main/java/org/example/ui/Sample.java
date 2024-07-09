@@ -9,7 +9,6 @@ import org.example.utils.Window;
 public class Sample {
     final float[] backgroundColor = new float[]{1, 1, 1};
 
-    private final ImString resizableStr = new ImString(5);
     private final ImBool showDemoWindow = new ImBool();
 
     private float[] ballColor = new float[]{0, 0, 1};
@@ -35,10 +34,6 @@ public class Sample {
     private ImFloat start_angle = new ImFloat(0f);
     private ImFloat end_angle = new ImFloat(0f);
 
-    private ImFloat velX = new ImFloat(0f);
-    private ImFloat velY = new ImFloat(0f);
-    private Ball newBall = null;
-
     private float INPUT_SIZE = 100;
 
 
@@ -47,10 +42,6 @@ public class Sample {
         ImGui.setNextWindowPos(0, 0, ImGuiCond.Once);
 
         ImGui.begin("Settings Window");  // Start Custom window
-
-
-        // Checkbox to show demo window
-//        ImGui.checkbox("Show demo window", showDemoWindow);
 
         ImGui.separator();
 
@@ -227,11 +218,5 @@ public class Sample {
 
     public float[] getBackgroundColor(){
         return backgroundColor;
-    }
-
-    public Ball getNewBall() {
-        Ball ball = newBall;
-        newBall = null; // Reset after retrieving
-        return ball;
     }
 }

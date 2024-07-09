@@ -1,6 +1,8 @@
 package org.example.ui;
 import org.example.utils.Window;
 
+import java.util.Arrays;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class Ball {
@@ -19,7 +21,10 @@ public class Ball {
         this.velocity = velocity;
         this.angle = angle;
         this.numSegments = numSegments;
-        this.color = color != null ? color : DEFAULT_COLOR;
+        this.color = Arrays.copyOf(color, color.length); // Create a copy of the color array
+        if (this.color.length < 3) {
+            this.color = DEFAULT_COLOR; // Fallback to default if array length is incorrect
+        }
     }
 
     public void update(float dt) {
