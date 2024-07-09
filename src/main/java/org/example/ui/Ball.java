@@ -6,43 +6,46 @@ import static org.lwjgl.opengl.GL11.*;
 public class Ball {
     private float x, y;
     private float radius;
-    private float velX, velY;
+    private float velocity, angle;
     private int numSegments;
     private float[] color;
 
     private static final float[] DEFAULT_COLOR = {0.0f, 0.0f, 1.0f};
 
-    public Ball(float x, float y, float radius, float velX, float velY, int numSegments, float[] color) {
+    public Ball(float x, float y, float radius, float velocity, float angle, int numSegments, float[] color) {
         this.x = x;
         this.y = y;
         this.radius = radius;
-        this.velX = velX;
-        this.velY = velY;
+        this.velocity = velocity;
+        this.angle = angle;
         this.numSegments = numSegments;
-        this.color = color;
+        this.color = color != null ? color : DEFAULT_COLOR;
     }
 
-    public void update(float dt, int windowWidth, int windowHeight) {
+    public void update(float dt) {
+        double velocityPerUpdate = velocity * dt;
+
         // Update position
-        x += velX * dt;
-        y += velY * dt;
+        x += (float) (velocityPerUpdate * Math.cos(Math.toRadians(angle)));
+        y += (float) (velocityPerUpdate * Math.sin(Math.toRadians(angle)));
 
         // Check for collisions with window borders and bounce
         if (x - radius < -1.0f) {
             x = -1.0f + radius;
-            velX = -velX;
+            angle = (int) (180 - angle);
         } else if (x + radius > 1.0f) {
             x = 1.0f - radius;
-            velX = -velX;
+            angle = (int) (180 - angle);
         }
 
         if (y - radius < -1.0f) {
             y = -1.0f + radius;
-            velY = -velY;
+            angle = (int) (360 - angle);
         } else if (y + radius > 1.0f) {
             y = 1.0f - radius;
-            velY = -velY;
+            angle = (int) (360 - angle);
         }
+
     }
 
     public void render() {
