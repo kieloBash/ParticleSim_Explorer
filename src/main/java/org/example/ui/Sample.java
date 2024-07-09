@@ -71,17 +71,17 @@ public class Sample {
 
         if (ImGui.button("Distance")) {
             System.out.println("Distance Mode");
-            Window.setSpawnMode(Window.Mode.DISTANCE_MODE);
+            Window.setSpawnMode(Window.SpawnMode.DISTANCE_MODE);
         }
         ImGui.sameLine();
         if (ImGui.button("Speed")) {
             System.out.println("Speed Mode");
-            Window.setSpawnMode(Window.Mode.SPEED_MODE);
+            Window.setSpawnMode(Window.SpawnMode.SPEED_MODE);
         }
         ImGui.sameLine();
         if (ImGui.button("Angle")) {
             System.out.println("Angle Mode");
-            Window.setSpawnMode(Window.Mode.ANGLE_MODE);
+            Window.setSpawnMode(Window.SpawnMode.ANGLE_MODE);
         }
 
         ImGui.separator();
@@ -95,9 +95,20 @@ public class Sample {
         ImGui.text("FPS: ");
         ImGui.sameLine();
         ImGui.text("" + Window.getFPS());
+        ImGui.text("View Mode: ");
+        ImGui.sameLine();
+        ImGui.text("" + Window.getViewMode());
 
-
-
+        if(Window.getViewMode() == Window.ViewMode.DEVELOPER){
+            if (ImGui.button("Switch to Explorer")) {
+                Window.setViewMode(Window.ViewMode.EXPLORER);
+            }
+        }else{
+            if (ImGui.button("Switch to Developer")) {
+                Window.setViewMode(Window.ViewMode.DEVELOPER);
+            }
+        }
+        ImGui.sameLine();
         if (ImGui.button("Clear All Particles")) {
             Window.clearBalls();
         }
@@ -110,7 +121,7 @@ public class Sample {
     }
 
     private void displaySpawnMode(){
-        Window.Mode currentMode = Window.getSpawnMode();
+        Window.SpawnMode currentMode = Window.getSpawnMode();
         switch (currentMode){
             case DISTANCE_MODE -> {
                 ImGui.text("Start X:  ");

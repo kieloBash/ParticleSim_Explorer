@@ -1,6 +1,7 @@
 package org.example.utils;
 
 import org.example.ui.Ball;
+import org.example.ui.Player;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -12,8 +13,12 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Window {
-    public enum Mode {
+    public enum SpawnMode {
         DISTANCE_MODE, SPEED_MODE, ANGLE_MODE
+    }
+
+    public enum ViewMode {
+        DEVELOPER, EXPLORER
     }
 
     private int width, height;
@@ -24,18 +29,23 @@ public class Window {
     private ImGUILayer imGUILayer;
 
     private ArrayList<Ball> balls = new ArrayList<>();
-    private Mode spawnMode;
+    private SpawnMode spawnMode;
+    private ViewMode viewMode;
 
     //FPS
     private float frameTime = 0.0f;
     private int fpsCounter = 0;
     private int fps = 0;
 
+    //PLAYER
+    private Player player;
+
     private Window() {
         this.width = 1280;
         this.height = 720;
         this.title = "Particle Sim v2";
-        spawnMode = Mode.DISTANCE_MODE;
+        spawnMode = SpawnMode.DISTANCE_MODE;
+        viewMode = ViewMode.DEVELOPER;
     }
 
     public static Window get() {
@@ -103,6 +113,12 @@ public class Window {
                 currBall.render();
             }
 
+            // Update and render the player if in explorer mode
+            if (viewMode == ViewMode.EXPLORER && player != null) {
+                player.update(dt);
+                player.render();
+            }
+
             this.imGUILayer.update(dt);
             glfwSwapBuffers(glfwWindow);
 
@@ -134,12 +150,31 @@ public class Window {
         get().balls.clear();
     }
 
-    public static Mode getSpawnMode() {
+    public static SpawnMode getSpawnMode() {
         return get().spawnMode;
     }
 
-    public static void setSpawnMode(Mode newMode) {
+    public static void setSpawnMode(SpawnMode newMode) {
         get().spawnMode = newMode;
+    }
+
+    public static ViewMode getViewMode() {
+        return get().viewMode;
+    }
+
+    public static long getGLFWWindow(){
+        return get().glfwWindow;
+    }
+
+    public static void setViewMode(ViewMode newMode) {
+        get().viewMode = newMode;
+
+        // Initialize or clear player based on mode switch
+        if (newMode == ViewMode.EXPLORER) {
+            get().player = new Player(0.0f, 0.0f);
+        } else {
+            get().player = null;
+        }
     }
 
     public static void spawnDistanceBalls(int n, float startX, float endX, float startY, float endY, float vel, float angle, float[] ballColor) {
