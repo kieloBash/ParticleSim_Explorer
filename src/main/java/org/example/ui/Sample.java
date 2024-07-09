@@ -38,7 +38,7 @@ public class Sample {
 
 
     public void render() {
-        ImGui.setNextWindowSize(450, 380, ImGuiCond.Once);
+        ImGui.setNextWindowSize(420, 330, ImGuiCond.Once);
         ImGui.setNextWindowPos(0, 0, ImGuiCond.Once);
 
         ImGui.begin("Settings Window");  // Start Custom window

@@ -44,6 +44,8 @@ public class Window {
         this.width = 1280;
         this.height = 720;
         this.title = "Particle Sim v2";
+
+        player = new Player(0.0f, 0.0f);
         spawnMode = SpawnMode.DISTANCE_MODE;
         viewMode = ViewMode.DEVELOPER;
     }
@@ -114,7 +116,7 @@ public class Window {
             }
 
             // Update and render the player if in explorer mode
-            if (viewMode == ViewMode.EXPLORER && player != null) {
+            if (viewMode == ViewMode.EXPLORER && player.getVisible()) {
                 player.update(dt);
                 player.render();
             }
@@ -171,9 +173,9 @@ public class Window {
 
         // Initialize or clear player based on mode switch
         if (newMode == ViewMode.EXPLORER) {
-            get().player = new Player(0.0f, 0.0f);
+            get().player.setVisible(true);
         } else {
-            get().player = null;
+            get().player.setVisible(false);
         }
     }
 

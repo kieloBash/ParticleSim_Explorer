@@ -9,6 +9,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Player {
     private float x, y;
     private float speed;
+    private boolean visible;
 
     private static final float[] DEFAULT_COLOR = {1.0f, 0.0f, 0.0f};
 
@@ -16,7 +17,7 @@ public class Player {
         this.x = x;
         this.y = y;
         this.speed = 0.4f;
-        System.out.println("Spawn Player");
+        this.visible = true;
     }
 
     public void update(float dt) {
@@ -36,6 +37,8 @@ public class Player {
     }
 
     public void render() {
+        if(!visible) return;
+
         float radius = 0.02f;
         float aspectRatio = (float) Window.getHeight() / Window.getWidth();
         float radiusX = radius * aspectRatio;
@@ -68,5 +71,13 @@ public class Player {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    public boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }
