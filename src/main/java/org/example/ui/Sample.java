@@ -1,52 +1,38 @@
 package org.example.ui;
 
-import imgui.ImBool;
-import imgui.ImGui;
-import imgui.ImString;
-import imgui.ImVec2;
+import imgui.*;
 import imgui.enums.ImGuiColorEditFlags;
 import imgui.enums.ImGuiCond;
 import imgui.enums.ImGuiInputTextFlags;
-import org.lwjgl.BufferUtils;
+import org.example.utils.Window;
 
 public class Sample {
-    // Test data for payload
-    private final byte[] testPayload = "Test Payload".getBytes();
-    private String dropTargetText = "Drop Here";
-
-    final float[] backgroundColor = new float[]{0.5f, 0, 0};
+    final float[] backgroundColor = new float[]{1, 1, 1};
 
     private final ImString resizableStr = new ImString(5);
     private final ImBool showDemoWindow = new ImBool();
 
-    public void render() {
-        ImGui.setNextWindowSize(600, 300, ImGuiCond.Once);
-        ImGui.setNextWindowPos(10, 10, ImGuiCond.Once);
+    private float[] ballColor = new float[]{0, 0, 1};
+    private ImInt numBallsToSpawn = new ImInt(1);
+    private ImFloat posX = new ImFloat(0f);
+    private ImFloat posY = new ImFloat(0f);
+    private ImFloat velX = new ImFloat(0f);
+    private ImFloat velY = new ImFloat(0f);
+    private Ball newBall = null;
 
-        ImGui.begin("Custom window");  // Start Custom window
+
+
+    public void render() {
+        ImGui.setNextWindowSize(300, 300, ImGuiCond.Once);
+        ImGui.setNextWindowPos(0, 0, ImGuiCond.Once);
+
+        ImGui.begin("Settings Window");  // Start Custom window
 
 
         // Checkbox to show demo window
-        ImGui.checkbox("Show demo window", showDemoWindow);
+//        ImGui.checkbox("Show demo window", showDemoWindow);
 
         ImGui.separator();
-
-        // Drag'n'Drop functionality
-        ImGui.button("Drag me");
-        if (ImGui.beginDragDropSource()) {
-            ImGui.setDragDropPayload("payload_type", testPayload, testPayload.length);
-            ImGui.text("Drag started");
-            ImGui.endDragDropSource();
-        }
-        ImGui.sameLine();
-        ImGui.text(dropTargetText);
-        if (ImGui.beginDragDropTarget()) {
-            final byte[] payload = ImGui.acceptDragDropPayload("payload_type");
-            if (payload != null) {
-                dropTargetText = new String(payload);
-            }
-            ImGui.endDragDropTarget();
-        }
 
         // Color picker
         ImGui.alignTextToFramePadding();
@@ -56,27 +42,61 @@ public class Sample {
 
         ImGui.separator();
 
-        // Input field with auto-resize ability
-        ImGui.text("You can use text inputs with auto-resizable strings!");
-        ImGui.inputText("Resizable input", resizableStr, ImGuiInputTextFlags.CallbackResize);
-        ImGui.text("text len:");
+        // Ball creation controls
+        ImGui.alignTextToFramePadding();
+        ImGui.text("Number of Particles to Spawn:");
         ImGui.sameLine();
-        ImGui.textColored(.12f, .6f, 1, 1, Integer.toString(resizableStr.getLength()));
+        ImGui.inputInt("##numBallsToSpawn", numBallsToSpawn);
+
+        ImGui.text("Particle color:");
         ImGui.sameLine();
-        ImGui.text("| buffer size:");
+        ImGui.colorEdit3("##ballColor", ballColor, ImGuiColorEditFlags.NoInputs | ImGuiColorEditFlags.NoDragDrop);
+
+        ImGui.text("Position X: ");
         ImGui.sameLine();
-        ImGui.textColored(1, .6f, 0, 1, Integer.toString(resizableStr.getBufferSize()));
+        ImGui.inputFloat("##posX",posX);
+        ImGui.text("Position Y: ");
+        ImGui.sameLine();
+        ImGui.inputFloat("##posY",posY);
+
+        ImGui.text("Velocity X: ");
+        ImGui.sameLine();
+        ImGui.inputFloat("##velX",velX);
+        ImGui.text("Velocity Y: ");
+        ImGui.sameLine();
+        ImGui.inputFloat("##velY",velY);
 
         ImGui.separator();
-        ImGui.newLine();
+        ImGui.text("Particle Count: ");
+        ImGui.sameLine();
+        ImGui.text("" + Window.getBalls().size());
+        ImGui.text("FPS: ");
+        ImGui.sameLine();
+        ImGui.text("" + Window.getFPS());
 
-        if (ImGui.button("Click Me")) {
-            System.out.println("Button clicked!");
+
+        if (ImGui.button("Spawn Particle")) {
+            Window.createBalls(numBallsToSpawn.get(),posX.get(), posY.get(), velX.get()/10,velY.get()/10,ballColor);
         }
+        ImGui.sameLine();
+        if (ImGui.button("Clear All Particles")) {
+            Window.clearBalls();
+        }
+
         ImGui.end();  // End Custom window
 
         if (showDemoWindow.get()) {
             ImGui.showDemoWindow(showDemoWindow);
         }
+    }
+
+    public float[] getBackgroundColor(){
+        return backgroundColor;
+    }
+
+    public Ball getNewBall() {
+        Ball ball = newBall;
+        newBall = null; // Reset after retrieving
+        return ball;
     }
 }

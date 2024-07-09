@@ -201,5 +201,9 @@ public class ImGUILayer {
         ImGui.destroyContext();
     }
 
+    public Sample getUI(){
+        return exampleUi;
+    }
+
 
 }
