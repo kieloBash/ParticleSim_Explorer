@@ -70,17 +70,14 @@ public class Sample {
         ImGui.text("" + Window.getSpawnMode());
 
         if (ImGui.button("Distance")) {
-            System.out.println("Distance Mode");
             Window.setSpawnMode(Window.SpawnMode.DISTANCE_MODE);
         }
         ImGui.sameLine();
         if (ImGui.button("Speed")) {
-            System.out.println("Speed Mode");
             Window.setSpawnMode(Window.SpawnMode.SPEED_MODE);
         }
         ImGui.sameLine();
         if (ImGui.button("Angle")) {
-            System.out.println("Angle Mode");
             Window.setSpawnMode(Window.SpawnMode.ANGLE_MODE);
         }
 
@@ -156,7 +153,7 @@ public class Sample {
                 ImGui.inputFloat("##angle",angle);
 
                 //BUTTON SPAWN
-                if (ImGui.button("Spawn")) {
+                if (ImGui.button("Spawn") && Window.getViewMode() == Window.ViewMode.DEVELOPER) {
                     Window.spawnDistanceBalls(numBallsToSpawn.get(),start_posX.get(),end_posX.get(),start_posY.get(),end_posY.get(),velocity.get()/10,angle.get(),ballColor);
                 }
             }
@@ -188,7 +185,7 @@ public class Sample {
                 ImGui.inputFloat("##angle",angle);
 
                 //BUTTON SPAWN
-                if (ImGui.button("Spawn")) {
+                if (ImGui.button("Spawn") && Window.getViewMode() == Window.ViewMode.DEVELOPER) {
                     Window.spawnSpeedBalls(numBallsToSpawn.get(),start_vel.get(),end_vel.get(),posX.get(),posY.get(),angle.get(),ballColor);
                 }
             }
@@ -220,7 +217,7 @@ public class Sample {
                 ImGui.inputFloat("##velocity",velocity);
 
                 //BUTTON SPAWN
-                if (ImGui.button("Spawn")) {
+                if (ImGui.button("Spawn") && Window.getViewMode() == Window.ViewMode.DEVELOPER) {
                     Window.spawnAngleBalls(numBallsToSpawn.get(),start_angle.get(),end_angle.get(),posX.get(),posY.get(),velocity.get(),ballColor);
                 }
             }
