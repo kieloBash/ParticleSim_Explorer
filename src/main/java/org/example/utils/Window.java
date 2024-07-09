@@ -14,6 +14,7 @@ public class Window {
 
     private long glfwWindow;
     private static Window window = null;
+    private ImGUILayer imGUILayer;
 
     private Window(){
         this.width = 1920;
@@ -63,8 +64,13 @@ public class Window {
         glfwShowWindow(glfwWindow);
 
         GL.createCapabilities();
+        this.imGUILayer = new ImGUILayer(glfwWindow);
+        this.imGUILayer.initImGui();
     }
     public void loop(){
+        float beginTime = 0.0f;
+        float endTime =  0.0f;
+        float dt = -1.0f;
         while(!glfwWindowShouldClose(glfwWindow)){
             // Poll events
             glfwPollEvents();
@@ -72,7 +78,18 @@ public class Window {
             glClearColor(1.0f,0.0f,0.0f,1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
+            this.imGUILayer.update(dt);
             glfwSwapBuffers(glfwWindow);
+
+            endTime = (float)glfwGetTime();
+            dt = endTime - beginTime;
+            beginTime = endTime;
         }
+    }
+    public static int getWidth(){
+        return get().width;
+    }
+    public static int getHeight(){
+        return get().height;
     }
 }
