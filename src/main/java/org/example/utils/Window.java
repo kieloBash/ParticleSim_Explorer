@@ -8,6 +8,11 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -32,6 +37,8 @@ public class Window {
     private SpawnMode spawnMode;
     private ViewMode viewMode;
 
+    private ExecutorService executor;
+
     //FPS
     private float frameTime = 0.0f;
     private int fpsCounter = 0;
@@ -48,6 +55,7 @@ public class Window {
         player = new Player(0.0f, 0.0f);
         spawnMode = SpawnMode.DISTANCE_MODE;
         viewMode = ViewMode.DEVELOPER;
+        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
     public static Window get() {
@@ -99,7 +107,6 @@ public class Window {
         float endTime = 0.0f;
         float dt = -1.0f;
 
-
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
             glfwPollEvents();
@@ -108,11 +115,27 @@ public class Window {
             glClearColor(bgColor[0], bgColor[1], bgColor[2], 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            //Rendering the balls
-            for (int i = 0; i < balls.size(); i++) {
-                Ball currBall = balls.get(i);
-                currBall.update(dt);
-                currBall.render();
+            // Concurrently update all balls
+            try {
+                List<Callable<Void>> updateTasks = new ArrayList<>();
+                for (Ball ball : balls) {
+                    float finalDt = dt;
+                    updateTasks.add(() -> {
+                        ball.update(finalDt);
+                        return null;
+                    });
+                }
+                List<Future<Void>> futures = executor.invokeAll(updateTasks);
+                for (Future<Void> future : futures) {
+                    future.get();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Render all balls
+            for (Ball ball : balls) {
+                ball.render();
             }
 
             // Update and render the player if in explorer mode
@@ -138,6 +161,8 @@ public class Window {
                 frameTime -= 1.0f;
             }
         }
+
+        executor.shutdown();
     }
 
     public static int getWidth() {
@@ -203,7 +228,7 @@ public class Window {
         for (int i = 0; i < n; i++) {
             float velocity = (float) (startVel + i * deltaVelocity);
 
-            Ball newBall = new Ball(x, y, 0.02f, velocity/10, angle, 10, ballColor);
+            Ball newBall = new Ball(x, y, 0.02f, velocity / 10, angle, 10, ballColor);
             get().balls.add(newBall);
         }
     }
@@ -215,9 +240,9 @@ public class Window {
         float y = (posY / getWidth()) * 2 - 1;
 
         for (int i = 0; i < n; i++) {
-            float angle = (float)(startAngle + i * deltaAngle);
+            float angle = (float) (startAngle + i * deltaAngle);
 
-            Ball newBall = new Ball(x, y, 0.02f, velocity/10, angle, 10, ballColor);
+            Ball newBall = new Ball(x, y, 0.02f, velocity / 10, angle, 10, ballColor);
             get().balls.add(newBall);
         }
     }
@@ -229,6 +254,4 @@ public class Window {
     public static int getFPS() {
         return get().fps;
     }
-
-
 }
