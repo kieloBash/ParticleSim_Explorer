@@ -39,12 +39,13 @@ public class Window {
 
     private ExecutorService executor;
 
-    //FPS
+    // FPS
     private float frameTime = 0.0f;
     private int fpsCounter = 0;
     private int fps = 0;
+    private float fpsDisplayTime = 0.0f;
 
-    //PLAYER
+    // PLAYER
     private Player player;
 
     private Window() {
@@ -94,7 +95,7 @@ public class Window {
         // Enable v-sync
         glfwSwapInterval(1);
 
-        //Make the window visible
+        // Make the window visible
         glfwShowWindow(glfwWindow);
 
         GL.createCapabilities();
@@ -134,14 +135,52 @@ public class Window {
             }
 
             // Render all balls
-            for (Ball ball : balls) {
-                ball.render();
+            if (viewMode == ViewMode.DEVELOPER) {
+                for (Ball ball : balls) {
+                    ball.render();
+                }
             }
-
-            // Update and render the player if in explorer mode
-            if (viewMode == ViewMode.EXPLORER && player.getVisible()) {
+            else if (viewMode == ViewMode.EXPLORER && player.getVisible()) {
                 player.update(dt);
+
+                // Define the zoom factor
+                float zoomFactor = 100.0f; // Adjust as needed for zoom level
+
+                // Calculate the scale based on zoomFactor
+                float scale = zoomFactor * (2.0f / 33.0f); // Adjust the scale factor
+
+                // Calculate the center position of the screen relative to the player
+                float centerX = player.getX();
+                float centerY = player.getY();
+
+                System.out.println("centerx +"+ player.getX());
+                // Apply transformations
+                glPushMatrix();
+
+                // Translate to center the player on the screen
+                glTranslatef(-(centerX * scale - centerX), -(centerY * scale - centerY), 0);
+
+                // Apply zoom transformation
+                glScalef(scale, scale, 1.0f);
+
+                // Render the player's periphery
+                float halfWidth = width / (2.0f * scale); // Adjust as needed
+                float halfHeight = height / (2.0f * scale); // Adjust as needed
+
+                for (Ball ball : balls) {
+                    float ballX = ball.getX();
+                    float ballY = ball.getY();
+                    if (ballX >= centerX - halfWidth && ballX <= centerX + halfWidth &&
+                            ballY >= centerY - halfHeight && ballY <= centerY + halfHeight) {
+                        ball.render();
+                    }
+                }
+
+                // Render the player at the center of the screen
                 player.render();
+
+                // Restore original transformations
+                glPopMatrix();
             }
 
             this.imGUILayer.update(dt);
@@ -154,11 +193,18 @@ public class Window {
             // Update FPS calculation
             frameTime += dt;
             fpsCounter++;
+            fpsDisplayTime += dt;
 
             if (frameTime >= 1.0f) {
                 fps = fpsCounter;
                 fpsCounter = 0;
                 frameTime -= 1.0f;
+            }
+
+            // Display FPS every 0.5 seconds
+            if (fpsDisplayTime >= 0.5f) {
+                System.out.println("FPS: " + fps);
+                fpsDisplayTime = 0.0f;
             }
         }
 
@@ -189,7 +235,7 @@ public class Window {
         return get().viewMode;
     }
 
-    public static long getGLFWWindow(){
+    public static long getGLFWWindow() {
         return get().glfwWindow;
     }
 

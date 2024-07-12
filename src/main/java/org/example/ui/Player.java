@@ -1,16 +1,14 @@
 package org.example.ui;
 
 import org.example.utils.Window;
-
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-
 
 public class Player {
     private float x, y;
     private float speed;
     private boolean visible;
-
+    float radius = 0.02f;
     private static final float[] DEFAULT_COLOR = {1.0f, 0.0f, 0.0f};
 
     public Player(float x, float y) {
@@ -21,25 +19,26 @@ public class Player {
     }
 
     public void update(float dt) {
-        // Handle player movement here (e.g., WASD controls)
-        if (glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_W) == GLFW_PRESS) {
+        // Handle player movement here (e.g., WASD and arrow key controls)
+        if ((y + radius < 0.9f) && glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_UP) == GLFW_PRESS ) {
             y += speed * dt;
         }
-        if (glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_A) == GLFW_PRESS) {
+        if ((x + radius > -0.91f) && glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_LEFT) == GLFW_PRESS) {
             x -= speed * dt;
         }
-        if (glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_S) == GLFW_PRESS) {
+        if ((y + radius > -0.86f) && glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_DOWN) == GLFW_PRESS) {
             y -= speed * dt;
         }
-        if (glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_D) == GLFW_PRESS) {
+        if ((x + radius < 0.95f) && glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(Window.getGLFWWindow(), GLFW_KEY_RIGHT) == GLFW_PRESS) {
             x += speed * dt;
         }
+
     }
 
     public void render() {
-        if(!visible) return;
+        if (!visible) return;
 
-        float radius = 0.02f;
+
         float aspectRatio = (float) Window.getHeight() / Window.getWidth();
         float radiusX = radius * aspectRatio;
         float radiusY = radius;
@@ -56,7 +55,6 @@ public class Player {
         glEnd();
     }
 
-    // Getters and Setters
     public float getX() {
         return x;
     }
