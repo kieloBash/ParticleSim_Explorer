@@ -5,6 +5,7 @@ import org.example.utils.Window;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
+
 public class Player {
     private float x, y;
     private float speed;
@@ -38,8 +39,9 @@ public class Player {
     }
 
     public void render() {
-        if (!visible) return;
+        if(!visible) return;
 
+        float radius = 0.02f;
         float aspectRatio = (float) Window.getHeight() / Window.getWidth();
         float radiusX = radius * aspectRatio;
         float radiusY = radius;
@@ -56,6 +58,7 @@ public class Player {
         glEnd();
     }
 
+    // Getters and Setters
     public float getX() {
         return x;
     }

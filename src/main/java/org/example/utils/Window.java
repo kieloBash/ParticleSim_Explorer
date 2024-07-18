@@ -108,6 +108,7 @@ public class Window {
         float endTime = 0.0f;
         float dt = -1.0f;
 
+
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
             glfwPollEvents();
@@ -310,4 +311,6 @@ public class Window {
     public static int getFPS() {
         return get().fps;
     }
+
+
 }
