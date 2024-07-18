@@ -14,6 +14,9 @@ public class Sample {
     private float[] ballColor = new float[]{0, 0, 1};
     private ImInt numBallsToSpawn = new ImInt(1);
 
+    private ImFloat posXexp = new ImFloat(0f);
+    private ImFloat posYexp = new ImFloat(0f);
+
     //SINGLES
     private ImFloat posX = new ImFloat(0f);
     private ImFloat posY = new ImFloat(0f);
@@ -38,7 +41,7 @@ public class Sample {
 
 
     public void render() {
-        ImGui.setNextWindowSize(420, 330, ImGuiCond.Once);
+        ImGui.setNextWindowSize(450, 375, ImGuiCond.Once);
         ImGui.setNextWindowPos(0, 0, ImGuiCond.Once);
 
         ImGui.begin("Settings Window");  // Start Custom window
@@ -55,6 +58,7 @@ public class Sample {
 
         // Ball creation controls
         ImGui.alignTextToFramePadding();
+
         ImGui.text("Number of Particles to Spawn:");
         ImGui.sameLine();
         ImGui.setNextItemWidth(INPUT_SIZE); // Set the width of the input field
@@ -95,19 +99,38 @@ public class Sample {
         ImGui.text("View Mode: ");
         ImGui.sameLine();
         ImGui.text("" + Window.getViewMode());
+        if (ImGui.button("Clear All Particles")) {
+            Window.clearBalls();
+        }
 
+        ImGui.separator();
         if(Window.getViewMode() == Window.ViewMode.DEVELOPER){
+            ImGui.text("X:  ");
+            ImGui.sameLine();
+            ImGui.setNextItemWidth(INPUT_SIZE);
+            ImGui.inputFloat("##posXexp",posXexp);
+            ImGui.sameLine();
+            ImGui.text("Y:  ");
+            ImGui.sameLine();
+            ImGui.setNextItemWidth(INPUT_SIZE);
+            ImGui.inputFloat("##posYexp",posYexp);
+
             if (ImGui.button("Switch to Explorer")) {
-                Window.setViewMode(Window.ViewMode.EXPLORER);
+//                Window.setViewMode(Window.ViewMode.EXPLORER);
+                Window.setToExplorerMode(posXexp.get(),posYexp.get());
             }
         }else{
+            ImGui.text("X: ");
+            ImGui.sameLine();
+            ImGui.text("" + Window.getPlayer().getX());
+            ImGui.sameLine();
+            ImGui.text("Y: ");
+            ImGui.sameLine();
+            ImGui.text("" + Window.getPlayer().getY());
+
             if (ImGui.button("Switch to Developer")) {
                 Window.setViewMode(Window.ViewMode.DEVELOPER);
             }
-        }
-        ImGui.sameLine();
-        if (ImGui.button("Clear All Particles")) {
-            Window.clearBalls();
         }
 
         ImGui.end();  // End Custom window

@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="585b772c-90f8-4791-a07d-735c3adbc65f" name="Changes" comment="Added Spawning of Particles, Clear">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="585b772c-90f8-4791-a07d-735c3adbc65f" name="Changes" comment="bugfix: spawning when explorer">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ui/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ui/Ball.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ui/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ui/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ui/Sample.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ui/Sample.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/utils/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/utils/Window.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -130,7 +131,55 @@
       <option name="project" value="LOCAL" />
       <updated>1720517538451</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added Spawning Modes">
+      <option name="closed" value="true" />
+      <created>1720537887003</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1720537887003</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added Spawning Modes">
+      <option name="closed" value="true" />
+      <created>1720537954025</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1720537954025</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Bug fixes">
+      <option name="closed" value="true" />
+      <created>1720538529971</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1720538529971</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Handle Spawn Explorer">
+      <option name="closed" value="true" />
+      <created>1720539985565</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1720539985565</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Handle Spawn Explorer Changes">
+      <option name="closed" value="true" />
+      <created>1720540504990</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1720540504990</updated>
+    </task>
+    <task id="LOCAL-00012" summary="bugfix: spawning when explorer">
+      <option name="closed" value="true" />
+      <created>1720540772268</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1720540772268</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -164,7 +213,12 @@
     <MESSAGE value="Added ImGUI" />
     <MESSAGE value="Added Sample UI" />
     <MESSAGE value="Added Spawning of Particles, Clear" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Spawning of Particles, Clear" />
+    <MESSAGE value="Added Spawning Modes" />
+    <MESSAGE value="Bug fixes" />
+    <MESSAGE value="Handle Spawn Explorer" />
+    <MESSAGE value="Handle Spawn Explorer Changes" />
+    <MESSAGE value="bugfix: spawning when explorer" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix: spawning when explorer" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ParticleSim_Explorer$Main.ic" NAME="Main Coverage Results" MODIFIED="1720513052090" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">

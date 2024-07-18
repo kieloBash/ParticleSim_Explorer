@@ -1,4 +1,5 @@
 package org.example.ui;
+
 import org.example.utils.Window;
 
 import java.util.Arrays;
@@ -50,7 +51,6 @@ public class Ball {
             y = 1.0f - radius;
             angle = (int) (360 - angle);
         }
-
     }
 
     public void render() {
@@ -70,4 +70,12 @@ public class Ball {
         glEnd();
     }
 
+    // New methods to get the position of the ball
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
 }
