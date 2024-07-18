@@ -13,6 +13,11 @@ public class Ball {
     private int numSegments;
     private float[] color;
 
+    //FOR SPECS 2
+    private boolean isMagnified = false;
+    public static int gridWidth = Math.round((Window.getWidth() * 1.0f) / Player.PERIPHERY_WIDTH);
+    public static int gridHeight = Math.round((Window.getHeight() * 1.0f) / Player.PERIPHERY_HEIGHT);
+
     private static final float[] DEFAULT_COLOR = {0.0f, 0.0f, 1.0f};
 
     public Ball(float x, float y, float radius, float velocity, float angle, int numSegments, float[] color) {
@@ -77,5 +82,13 @@ public class Ball {
 
     public float getY() {
         return y;
+    }
+
+    public boolean getIsMagnified(){
+        return isMagnified;
+    }
+
+    public void setIsMagnified(boolean newVal){
+        isMagnified = newVal;
     }
 }

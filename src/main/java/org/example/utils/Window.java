@@ -124,6 +124,7 @@ public class Window {
                     float finalDt = dt;
                     updateTasks.add(() -> {
                         ball.update(finalDt);
+                        ball.setIsMagnified(viewMode == ViewMode.EXPLORER); //if explorer, should be magnified
                         return null;
                     });
                 }
@@ -145,7 +146,7 @@ public class Window {
                 player.update(dt);
 
                 // Define the zoom factor
-                float zoomFactor = 100.0f; // Adjust as needed for zoom level
+                float zoomFactor = 50f; // Adjust as needed for zoom level
 
                 // Calculate the scale based on zoomFactor
                 float scale = zoomFactor * (2.0f / 33.0f); // Adjust the scale factor
